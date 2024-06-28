@@ -21,11 +21,10 @@ def affine_encrypt(text, a, b):
         raise ValueError("Error: 'a' must be coprime with 26.")
     encrypted_text = ''
     for char in text.upper():
-        if char.isalpha():
+        if char.isalpha():  # Only process alphabetic characters
             encrypted_text += chr(((a * (ord(char) - ord('A')) + b) % 26) + ord('A'))
-        else:
-            encrypted_text += char
     return encrypted_text
+
 
 def affine_decrypt(ciphertext, a, b):
     a_inv = modinv(a, 26)
@@ -33,35 +32,34 @@ def affine_decrypt(ciphertext, a, b):
         raise ValueError("Modular inverse does not exist because 'a' and 26 are not coprime.")
     decrypted_text = ''
     for char in ciphertext.upper():
-        if char.isalpha():
+        if char.isalpha():  # Only process alphabetic characters
             decrypted_text += chr(((a_inv * ((ord(char) - ord('A')) - b)) % 26) + ord('A'))
-        else:
-            decrypted_text += char
     return decrypted_text
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     message = ""
-    a = ""
-    b = ""
-    text = ""
     if request.method == 'POST':
         text = request.form['text']
-        a = request.form['a']
-        b = request.form['b']
+        a = int(request.form['a'])
+        b = int(request.form['b'])
         action = request.form['action']
 
         try:
             if action == 'Encrypt':
-                message = affine_encrypt(text, int(a), int(b))
+                message = affine_encrypt(text, a, b)
             elif action == 'Decrypt':
-                message = affine_decrypt(text, int(a), int(b))
+                message = affine_decrypt(text, a, b)
         except Exception as e:
             message = str(e)
 
-    return render_template('index.html', message=message, a=a, b=b, text=text)
+    return render_template('index.html', message=message)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
 
 
