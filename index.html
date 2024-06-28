@@ -57,7 +57,11 @@
         button:hover {
             background-color: #45a049;
         }
-
+        .notice {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -74,8 +78,8 @@
                     <input type="number" id="b" name="b" required value="{{ b }}">
                 </div>
             </div>
-            <label for="text">Text:</label>
-            <input type="text" id="text" name="text" required value="{{ text }}">
+            <label for="text">Text (only alphabetic characters will be processed):</label>
+            <input type="text" id="text" name="text" required value="{{ text }}" placeholder="Enter alphabetic text only">
             <button type="submit" name="action" value="Encrypt">Encrypt</button>
             <button type="submit" name="action" value="Decrypt">Decrypt</button>
         </form>
@@ -85,7 +89,9 @@
                 <p>{{ message }}</p>
             </div>
         </div>
-
+        <p class="notice">Note: Only alphabetic characters are processed. Spaces and punctuation are ignored.</p>
     </div>
 </body>
 </html>
+
+
